@@ -12,7 +12,13 @@ hence can be pushed again (example shown below like 3 is ngb of 1 and 2 as well)
 3 6
 4 6
 
-this template is to start with only one node
+this template helps us to play in many way
+like for a given graph we can find the number of components , size of all components and etc.
+
+other applications of bfs are 
+1)whether it's a directed or undirected if it's unweighted or all edges having same weight then we can use bfs to find shortest distance
+of all the nodes from the source node
+2)we can also print the path to reach a given node from src node 
 */
 
 #include <bits/stdc++.h>
@@ -55,6 +61,37 @@ void bfs_util(int src,vector<bool> &vis)
     }
 }
 
+void bfs_dist(int src)
+{
+    int curr;
+    vector<bool> vis(n+1,false);
+    vis[src]=1;
+    queue<int> q;
+    q.push(src);
+    vector<int> dist(n+1);
+    vector<int> par(n+1,-1);
+    
+    vis[src]=true;
+    dist[src]=0;
+    
+    while(!q.empty())
+    {
+        curr=q.front();
+        q.pop();
+        cout<<dist[curr]<<" ";
+        for(int &nb:adj[curr])
+        {
+            if(!vis[nb])
+            {
+                vis[nb]=1;
+                dist[nb]=dist[curr]+1;
+                par[nb]=curr;
+                q.push(nb);
+            }
+        }
+    }
+}
+
 void bfs()
 {
     vector<bool> vis(n+1,false);
@@ -81,7 +118,8 @@ void solve()
         adj[u].pb(v),adj[v].pb(u);
     }    
     
-    bfs();
+    // bfs();
+    bfs_dist(1);
 }
 
 int main()
