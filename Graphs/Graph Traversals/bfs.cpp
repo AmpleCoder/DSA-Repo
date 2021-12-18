@@ -12,6 +12,7 @@ hence can be pushed again (example shown below like 3 is ngb of 1 and 2 as well)
 3 6
 4 6
 
+this template is to start with only one node
 */
 
 #include <bits/stdc++.h>
@@ -31,10 +32,9 @@ using namespace std;
 int n,m;
 vi adj[1001];
 
-void bfs(int src=1)
+void bfs_util(int src,vector<bool> &vis)
 {
     int curr;
-    vector<bool> vis(n+1,false);
     vis[src]=1;
     queue<int> q;
     q.push(src);
@@ -55,6 +55,21 @@ void bfs(int src=1)
     }
 }
 
+void bfs()
+{
+    vector<bool> vis(n+1,false);
+    int i;
+    
+    for(i=1;i<=n;i++)
+    {
+        if(!vis[i])
+        {
+            bfs_util(i,vis);
+            cout<<'\n';
+        }
+    }
+}
+
 void solve()
 {
     cin>>n>>m;
@@ -66,7 +81,7 @@ void solve()
         adj[u].pb(v),adj[v].pb(u);
     }    
     
-    bfs(1);
+    bfs();
 }
 
 int main()
