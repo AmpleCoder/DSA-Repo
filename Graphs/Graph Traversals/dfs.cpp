@@ -1,5 +1,18 @@
 /*
 simle and sweet dfs
+
+application 
+1) if we have to print the cycle / detect the cycle in the undirected graph using dfs how to do that?
+    simple to observe if any of my neighbour is not my parent and it is already visited then cycle is present 
+2) how to print cycle if present?
+    it's good problem the moment we get to the ngb which is already visited and it's not currents parent then it is the point 
+    which can lead us to cycle so at this moment of time we can maintain from and to (i.e from this point to start and to keep going with
+    the help of parent till we reach to)  
+
+some good problems 
+1)find the number of cycles in the given graph(will the answer vary for undirected , directed , unweighted etc.?) 
+2)print all the cycles in the given graph
+3)given a src and dest in a graph print the lexicographically smallest path to reach from src to dest
 */
 
 #include <bits/stdc++.h>
@@ -16,7 +29,7 @@ using namespace std;
 #define ff first
 #define ss second
 
-int n,m;
+int n,m,from,to;
 vi adj[1001];
 
 void dfs_util(int src,vector<bool> &vis)
@@ -31,6 +44,53 @@ void dfs_util(int src,vector<bool> &vis)
             dfs_util(nb,vis);
         }
     }
+}
+
+bool detect_cycle_dfs_util(int cur,int par,vector<bool> &vis)
+{
+    cout<<cur<<' ';
+    vis[cur]=true;
+
+    for(int nb:adj[cur])
+    {
+        if(nb==par) continue;
+        
+        if(vis[nb]==1)
+        {
+            //from to will help us to track the cycle detected
+            from=nb , to=cur;
+            //cycle detected
+            return true;
+        }
+
+        bool cyc = detect_cycle_dfs_util(nb,cur,vis);
+
+        if(cyc)
+            return true;
+    }
+
+    return false;
+}
+
+bool detect_cycle_dfs()
+{
+    vector<bool> vis(n+1,false);
+    
+    for(int i=1;i<=n;i++)
+    {
+        if(!vis[i])
+        {
+            bool found = detect_cycle_dfs_util(i,-1,vis);
+            if(found)
+            {
+                return 1;
+            }
+
+            cout<<'\n';
+        }
+    }
+
+    return 0;
 }
 
 void dfs()
@@ -59,7 +119,7 @@ void solve()
         adj[u].pb(v),adj[v].pb(u);
     }    
     
-    dfs();
+    cout<<detect_cycle_dfs();
 }
 
 int main()
