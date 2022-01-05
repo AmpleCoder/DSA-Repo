@@ -19,6 +19,15 @@ other applications of bfs are
 1)whether it's a directed or undirected if it's unweighted or all edges having same weight then we can use bfs to find shortest distance
 of all the nodes from the source node
 2)we can also print the path to reach a given node from src node 
+
+try one problem 
+we are given undirected unweighted graph and src and dest nodes and we need to print all the nodes which lies in the 
+shortest distance path from src to dest
+*/
+
+/*
+why bfs always gives minimum distance from a src node to all other nodes in unweighted graph , is the same holds on unwighted 
+directed graph?
 */
 
 #include <bits/stdc++.h>
