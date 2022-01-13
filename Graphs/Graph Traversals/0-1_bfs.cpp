@@ -1,13 +1,6 @@
 /*
-problem :- https://www.codechef.com/problems/SNSOCIAL
-*/
-
-/*
-suppose there are 3 special kinds of sources(depending on problem eg:- having smallest value largest value etc.)
-let's name them as s1,s2,s3 then after applying multi source bfs we'll get the shortest distance of every node from 
-these sources i.e shortest_distance_of_(i,j)=min(dis(i,j) from s1 , 
-                                                 dis(i,j) from s2 ,
-                                                 dis(i,j) from s3)
+problem : https://www.codechef.com/problems/REVERSE
+similar problem : 
 */
 
 #include <bits/stdc++.h>
@@ -23,9 +16,11 @@ using namespace std;
 #define pb push_back
 #define ff first
 #define ss second
+#define inf (int)1e8
 int n,m;
-int a[501][501];
+vector<vector<pii>> adj;
 int dir[]={-1,0,1,0,-1,1,1,-1,-1};
+
 class cell{
 public:
     int x,y,d;
@@ -36,90 +31,57 @@ bool out(int x,int y)
     return (x<0 || x>=n || y<0 || y>=m);
 }
 
-//given a list of sources we're applying multi source bfs to figure out min dist of all points from these nodes
-void ms_bfs(vector<cell> &src)
+void bfs_01(int src)
 {
-    queue<cell> q;
-    vector<vector<bool>> vis(n,vector<bool>(m,false));
-    vector<vector<int>> dis(n,vector<int>(m,-1));
-    int x,y,dx,dy,d,i,ans=0;
-    
-    for(auto &s:src)
-    {
-        x=s.x,y=s.y,d=0;
-        q.push(s);
-        vis[x][y]=true;
-        dis[x][y]=0;
-    }
+    vector<int> dist(n+1,inf);
+    deque<int> q;
+    dist[src]=0;
+    q.push_front(src);
     
     while(!q.empty())
     {
-        cell curr=q.front();
-        q.pop();
-        x=curr.x,y=curr.y,d=curr.d;
-        
-        for(i=0;i<8;i++)
+        int curr=q.front();
+        q.pop_front();
+        for(auto &ngb:adj[curr])
         {
-            dx=x+dir[i];
-            dy=y+dir[i+1];
-            
-            if(out(dx,dy) || vis[dx][dy])   
+            int v=ngb.ff;
+            int w=ngb.ss;
+            if(dist[v]>dist[curr]+w)
             {
-                continue;
+                dist[v]=dist[curr]+w;
+                if(w==1)
+                {
+                    q.push_back(v);
+                }
+                
+                else
+                {
+                    q.push_front(v);
+                }
             }
-            
-            vis[dx][dy]=true;
-            dis[dx][dy]=d+1;
-            cell n;
-            n.x=dx,n.y=dy,n.d=d+1;
-            q.push(n);
-            ans=max(ans,dis[dx][dy]);
         }
     }
     
-    cout<<ans<<endl;
+    cout<<(dist[n]==inf?-1:dist[n]);
 }
 
 void solve()
 {
-    int i,j,mx=0;
+    int u,v,i;
     cin>>n>>m;
+    adj.resize(n+1);
     
-    for(i=0;i<n;i++)
+    for(i=0;i<m;i++)
     {
-        for(j=0;j<m;j++)
-        {
-            cin>>a[i][j];
-            mx=max(mx,a[i][j]);
-        }
+        cin>>u>>v;
+        adj[u].push_back({v,0});
+        adj[v].push_back({u,1});
     }
     
-    vector<cell> src;
-    cell curr;
-    
-    for(i=0;i<n;i++)
-    {
-        for(j=0;j<m;j++)
-        {
-            if(a[i][j]==mx)
-            {
-                curr.x=i,curr.y=j,curr.d=0;
-                src.push_back(curr);            
-            }
-        }
-    }
-    
-    ms_bfs(src);
+    bfs_01(1);
 }
 
 int main()
 {
-    FIO;
-    int t;
-    cin>>t;
-    
-    while(t--)
-    {
-        solve();
-    }
+    solve();
 }
