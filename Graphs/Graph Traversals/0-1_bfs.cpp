@@ -1,6 +1,9 @@
 /*
 problem : https://www.codechef.com/problems/REVERSE
 similar problem : https://leetcode.com/problems/reorder-routes-to-make-all-paths-lead-to-the-city-zero/
+
+when to use it :- when we're dealing with the weighted graph where we need to figure out min. dist etc in O(n+m) instead of O(nlogn)
+where weights can only be of 2 types then use 01_bfs
 */
 
 #include <bits/stdc++.h>
