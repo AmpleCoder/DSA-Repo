@@ -3,6 +3,11 @@ pre-requisite : DFS on Di graph
 back edge 
 
 if there's no cycle in di-graph then it's called DAG(directed acyclic graph)
+
+problems regarding DAG 
+a) given a weighted DAG we need to tell the largest sum of weights between any two nodes(positive weights only)
+hint: it's  better to start with the node having 0 indegree
+//code aaj krunga  
 */
 
 #include <bits/stdc++.h>
