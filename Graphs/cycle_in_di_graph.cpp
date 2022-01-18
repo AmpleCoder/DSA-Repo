@@ -1,6 +1,8 @@
 /*
 pre-requisite : DFS on Di graph 
 back edge 
+
+if there's no cycle in di-graph then it's called DAG(directed acyclic graph)
 */
 
 #include <bits/stdc++.h>
