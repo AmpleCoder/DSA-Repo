@@ -140,3 +140,9 @@ int main()
 {
     solve();
 }
+
+/*
+practice problem 
+1) https://codeforces.com/contest/1573/problem/C
+2) https://codeforces.com/problemset/problem/1217/D
+*/
